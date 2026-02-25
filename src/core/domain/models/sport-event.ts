@@ -4,6 +4,9 @@ export interface SportEvent {
   id: string;
   sportType: SportType;
   dateAt: string | null;
-  tournament: string | null;
+  tournament: {
+    name: string;
+    id: string;
+  };
   participants: Participant[];
 }

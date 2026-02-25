@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.container {
+	@apply relative mx-auto px-5 w-full max-w-[1140px];
+}

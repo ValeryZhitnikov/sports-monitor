@@ -1,11 +1,22 @@
-export interface FootballApiResponseDto {
+export interface FootballApiEventsResponseDto {
   status: string;
   count: number | null;
   data: FootballApiMatchDto[] | null;
-  requestQuery: unknown | null;
+  requestQuery: null | string;
   message: string | null;
   offset: number | null;
-  TotalCount: number | null;
+  TotalCount: null | number | string;
+  traceId: string | null;
+};
+
+export interface FootballApiParticipantsResponseDto {
+  status: string;
+  count: number | null;
+  data: FootballApiTeamDto[] | null;
+  requestQuery: string | null;
+  message: string | null;
+  offset: number | null;
+  TotalCount: null | number | string;
   traceId: string | null;
 };
 

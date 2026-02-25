@@ -1,6 +1,18 @@
+import { SportType } from "@/src/core/domain/models/participant";
+
+export interface FavoriteParticipant {
+  id: string;
+  sportType: SportType;
+}
+
+export interface FavoriteEvent {
+  id: string;
+  sportType: SportType;
+}
+
 export interface FavoritesRepository {
-  getFavoritesParticipantsIds(userId: string): Promise<string[]>;
-  getFavoriteEventIds(userId: string): Promise<string[]>;
-  toggleFavoriteParticipant(userId: string, participantId: string): Promise<void>;
-  toggleFavoriteEvent(userId: string, eventId: string): Promise<void>;
+  getFavoritesParticipants(userId?: string): Promise<FavoriteParticipant[]>;
+  getFavoriteEvent(userId?: string): Promise<FavoriteEvent[]>;
+  toggleFavoriteParticipant(participant: FavoriteParticipant, userId?: string): Promise<void>;
+  toggleFavoriteEvent(event: FavoriteEvent, userId?: string): Promise<void>;
 }

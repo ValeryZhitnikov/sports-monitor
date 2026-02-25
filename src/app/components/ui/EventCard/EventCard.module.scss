@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.event {
+    @apply flex items-center justify-between gap-3 px-5 py-3 border rounded-xl bg-white;
+}

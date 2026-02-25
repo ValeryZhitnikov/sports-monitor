@@ -1,43 +1,12 @@
-import slugify from "slugify";
 import { Result } from "@/src/core/domain/utils/result";
-import { fetchJSON } from "@/src/infrastructure/http/fetch-json";
-import { FootballApiResponseDto, FootballApiMatchDto, FootballApiTeamDto } from "@/src/infrastructure/sport-events/football-api/dto/football-api-dto";
+import { FootballApiClient } from "@/src/infrastructure/sport-events/football-api/http/football-api-client";
+import { FootballApiEventsResponseDto } from "@/src/infrastructure/sport-events/football-api/dto/football-api-dto";
 import { SportEventsQuery } from "@/src/core/domain/ports/sport-events-query";
 import { SportEvent } from "@/src/core/domain/models/sport-event";
-import { Participant } from "@/src/core/domain/models/participant";
+import { footballApiEventsMapper } from "../mappers/sport-event.mapper";
 
 export class FootballApiSportEventsQuery implements SportEventsQuery {
-  async getEventsForDay(date: Date): Promise<Result<SportEvent[]>> {
-    const dateFormated = this.formatDate(date);
-    const url = this.buildUrl(`games/list?date=${dateFormated}&team=529`);
-    
-    try {
-      const response = await fetchJSON<FootballApiResponseDto>(url);
-      if (!response.data || response.data.length === 0) {
-        return Result.success([]);
-      }
-
-      const result = this.eventsMapper(response.data);
-      return Result.success(result);
-    } catch (e) {
-      return Result.failure('An unknown error occurred during retrieval');
-    }
-    
-  };
-  async getEventsInRange(from: Date, to: Date): Promise<Result<SportEvent[]>> {
-    return Result.failure('An unknown error occurred during retrieval');
-  };
-  async getEventsForTournament(tournamentId: string): Promise<Result<SportEvent[]>> {
-    return Result.failure('An unknown error occurred during retrieval');
-  };
-  async getEventsForParticipant(participantId: string): Promise<Result<SportEvent[]>> {
-    return Result.failure('An unknown error occurred during retrieval');
-  };
-
-  private buildUrl(url: string): string {
-    const apiUrl = process.env.NEXT_PUBLIC_FOOTBALL_API_HOST;
-    return `${apiUrl}/${url}`;
-  }
+  constructor(private client = new FootballApiClient()) { }
 
   private formatDate(date: Date): string {
     const dateFormated = [
@@ -49,35 +18,35 @@ export class FootballApiSportEventsQuery implements SportEventsQuery {
     return dateFormated;
   }
 
-  private slugifyName(name: string): string {
-    return slugify(name, {
-      replacement: '-',
-      lower: true,
-    });
-  }
-
-  private mapParticipant(participant: FootballApiTeamDto): Participant {
-    return {
-      id: participant.id.toString(),
-      sportType: "football",
-      name: participant.name,
-      slug: this.slugifyName(participant.name),
-      logo: participant.logoUrl,
+  private async getEvents(url: string): Promise<Result<SportEvent[]>> {
+    const response = await this.client.get<FootballApiEventsResponseDto>(url);
+    if (!response.isSuccess()) {
+      return Result.failure(response.getError()!);
     }
+    
+    const data = response.getValue()?.data ?? [];
+
+    return Result.success(footballApiEventsMapper(data));
   }
 
-  private eventsMapper(events: FootballApiMatchDto[]): SportEvent[] {
-    return events.map(event => {
-      return {
-        id: event.id.toString(),
-        sportType: "football",
-        dateAt: event.date,
-        tournament: event.season.league.id.toString(),
-        participants: [
-          this.mapParticipant(event.homeTeam),
-          this.mapParticipant(event.awayTeam),
-        ],
-      }
-    })
-  }
+  async getEventsForDay(date: Date, participants?: string[]): Promise<Result<SportEvent[]>> {
+    const dateFormated = this.formatDate(date);
+    const participantsIds = participants && participants?.length > 0 
+    ? `&team=${participants.join(',')}`
+    : '';
+
+    return this.getEvents(`games/list?date=${dateFormated}${participantsIds}`);
+  };
+
+  async getEventsInRange(from: Date, to: Date, participants?: string[]): Promise<Result<SportEvent[]>> {
+    return Result.failure('An unknown error occurred during retrieval');
+  };
+
+  async getEventsForTournament(tournamentId: string): Promise<Result<SportEvent[]>> {
+    return this.getEvents(`games/list?leagueid=${tournamentId}&upcoming=true`);
+  };
+
+  async getEventsForParticipant(participantId: string): Promise<Result<SportEvent[]>> {
+    return this.getEvents(`games/list?&team=${participantId}&upcoming=true`);
+  };
 }
