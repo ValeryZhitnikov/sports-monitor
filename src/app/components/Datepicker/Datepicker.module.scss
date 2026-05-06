@@ -1,0 +1,19 @@
+.root {
+	:global(.air-datepicker-cell.-selected-) {
+		background: var(--secondary-bg);
+		color: var(--foreground);
+	}
+
+	:global(.air-datepicker-cell.-current-) {
+		background: var(--background);
+		color: var(--foreground);
+	}
+
+	:global(.air-datepicker-button span) {
+		color: var(--background);
+	}
+
+	:global(.air-datepicker-body--day-name) {
+		color: var(--background);
+	}
+}

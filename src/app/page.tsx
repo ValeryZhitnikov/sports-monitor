@@ -1,22 +1,20 @@
-import { Datepicker } from "@/src/app/components/Datepicker/Datepicker";
+import { HomeDatepickerBlock } from "@/src/app/components/HomeDatepickerBlock";
 import { HomeEventsList } from "@/src/app/components/HomeEventsList";
 
 export type PageProps = {
-  searchParams?: Promise<{
-    date?: string
-  }>;
+	searchParams?: Promise<{
+		date?: string;
+	}>;
 };
 
-export default async function Home({searchParams}: PageProps) {
-  const info = await searchParams;
-  const day = info?.date 
-        ? new Date(info?.date)
-        : new Date();
+export default async function Home({ searchParams }: PageProps) {
+	const info = await searchParams;
+	const day = info?.date ? new Date(info?.date) : new Date();
 
-  return (
-    <>
-      <Datepicker />
-      <HomeEventsList day={day} />
-    </>
-  );
+	return (
+		<>
+			<HomeDatepickerBlock />
+			<HomeEventsList day={day} />
+		</>
+	);
 }

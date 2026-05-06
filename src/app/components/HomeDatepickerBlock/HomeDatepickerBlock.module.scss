@@ -1,0 +1,22 @@
+@reference "tailwindcss";
+
+.wrap {
+	@apply relative flex justify-center;
+}
+
+.datepicker {
+	@apply absolute;
+	z-index: 10;
+}
+
+.close {
+	@apply absolute -top-4 -right-4 p-0
+    text-lg h-8 w-8 flex items-center justify-center
+    rounded-full cursor-pointer bg-white;
+	line-height: 1;
+}
+
+.datepickerButton {
+	@apply mb-4 bg-transparent border-none text-lg cursor-pointer;
+	color: inherit;
+}

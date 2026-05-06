@@ -1,9 +1,12 @@
 @reference "tailwindcss";
 
 .participant {
-    @apply max-w-3xs flex items-center justify-between border px-4 py-2 rounded-xl;
+	@apply max-w-3xs flex items-center justify-between 
+	border px-4 py-2 rounded-xl
+	bg-white;
+	color: var(--background);
 }
 
 .link {
-    @apply mr-3 flex items-center gap-3;
+	@apply mr-3 flex items-center gap-3 no-underline;
 }

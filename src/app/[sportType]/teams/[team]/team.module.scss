@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+.title {
+    @apply flex items-center justify-center mt-1 mb-8;
+}

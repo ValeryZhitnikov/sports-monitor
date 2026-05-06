@@ -1,19 +1,19 @@
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+const fs = require("fs");
+const path = require("path");
+const readline = require("readline");
 
 function ask(question) {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-  });
+	const rl = readline.createInterface({
+		input: process.stdin,
+		output: process.stdout,
+	});
 
-  return new Promise((resolve) => {
-    rl.question(question, (answer) => {
-      rl.close();
-      resolve(answer);
-    });
-  });
+	return new Promise((resolve) => {
+		rl.question(question, (answer) => {
+			rl.close();
+			resolve(answer);
+		});
+	});
 }
 
 // function toKebabCase(str) {
@@ -24,32 +24,32 @@ function ask(question) {
 // }
 
 (async () => {
-  const name = await ask('Введите название компонента (CamelCase): ');
+	const name = await ask("Введите название компонента (CamelCase): ");
 
-  if (!name) {
-    console.error('Название не может быть пустым');
-    process.exit(1);
-  }
+	if (!name) {
+		console.error("Название не может быть пустым");
+		process.exit(1);
+	}
 
-  // const transformedName = toKebabCase(name);
+	// const transformedName = toKebabCase(name);
 
-  const dirPath = path.join(process.env.INIT_CWD, name);
+	const dirPath = path.join(process.env.INIT_CWD, name);
 
-  if (!fs.existsSync(dirPath)) {
-    fs.mkdirSync(dirPath);
-    console.log('Создана папка:', dirPath);
-  } else {
-    console.log('Папка уже существует, продолжаю...');
-  }
+	if (!fs.existsSync(dirPath)) {
+		fs.mkdirSync(dirPath);
+		console.log("Создана папка:", dirPath);
+	} else {
+		console.log("Папка уже существует, продолжаю...");
+	}
 
-  const tsxFile = `${name}.tsx`;
-  const scssFile = `${name}.module.scss`;
-  const tsxPath = path.join(dirPath, tsxFile);
-  const scssPath = path.join(dirPath, scssFile);
-  const indexPath = path.join(dirPath, `index.ts`);
+	const tsxFile = `${name}.tsx`;
+	const scssFile = `${name}.module.scss`;
+	const tsxPath = path.join(dirPath, tsxFile);
+	const scssPath = path.join(dirPath, scssFile);
+	const indexPath = path.join(dirPath, `index.ts`);
 
-  const contentIndex = `export * from "./${name}";\n`;
-  const contentComponent = `import * as React from "react";
+	const contentIndex = `export * from "./${name}";\n`;
+	const contentComponent = `import * as React from "react";
 
 import classes from "./${scssFile}";
 
@@ -62,14 +62,13 @@ export const ${name} = () => {
 };
 `;
 
-  fs.writeFileSync(tsxPath, contentComponent, 'utf-8');
-  fs.writeFileSync(scssPath, '', 'utf-8');
-  fs.writeFileSync(indexPath, contentIndex, 'utf-8',);
+	fs.writeFileSync(tsxPath, contentComponent, "utf-8");
+	fs.writeFileSync(scssPath, "", "utf-8");
+	fs.writeFileSync(indexPath, contentIndex, "utf-8");
 
-  console.log('Созданы файлы:');
-  console.log(' -', tsxPath);
-  console.log(' -', scssPath);
-  console.log(' -', indexPath);
-  console.log('Компонент создан');
+	console.log("Созданы файлы:");
+	console.log(" -", tsxPath);
+	console.log(" -", scssPath);
+	console.log(" -", indexPath);
+	console.log("Компонент создан");
 })();
-

@@ -1,0 +1,8 @@
+@reference "tailwindcss";
+
+.menu {
+    @apply flex justify-center gap-4 list-none p-0 mr-0 mt-4 mb-10;
+    a {
+        @apply no-underline;
+    }
+}
