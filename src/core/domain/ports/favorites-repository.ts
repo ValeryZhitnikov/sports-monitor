@@ -1,17 +1,19 @@
 ﻿import type { SportItem } from "@/src/core/domain/types/sport-item";
 
 export interface FavoriteParticipant extends SportItem {
-    name: string;
+	name: string;
 }
 
-export interface FavoriteEvent extends SportItem {
-    // participants: FavoriteParticipant[]; 
-    // tournament: { id: string; name: string };
-    // dateAt: string;
-}
+// export interface FavoriteEvent extends SportItem {
+//     // participants: FavoriteParticipant[];
+//     // tournament: { id: string; name: string };
+//     // dateAt: string;
+// }
 
+// export interface FavoriteTournament extends SportItem {}
 // На будущее
-export interface FavoriteTournament extends SportItem {}
+export type FavoriteEvent = SportItem;
+export type FavoriteTournament = SportItem;
 
 export interface FavoritesRepository {
 	getFavoritesParticipants(userId?: string): Promise<FavoriteParticipant[]>;

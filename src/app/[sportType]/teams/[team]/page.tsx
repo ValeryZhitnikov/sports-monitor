@@ -21,9 +21,11 @@ export default async function TeamPage({ params }: Props) {
 
 	return (
 		<>
-            <Container className={classes.title}>
-			    {participant.getValue() && <ParticipantCard participant={participant.getValue()!} path={`/${sportType}/teams/`} />}
-            </Container>
+			<Container className={classes.title}>
+				{participant.getValue() && (
+					<ParticipantCard participant={participant.getValue()!} path={`/${sportType}/teams/`} />
+				)}
+			</Container>
 			<EventsList events={events.getValue() || []} />
 		</>
 	);

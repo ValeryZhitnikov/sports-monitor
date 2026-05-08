@@ -4,10 +4,8 @@ import { Result } from "@/src/core/domain/utils/result";
 export class FootballApiClient {
 	private apiUrl = process.env.NEXT_PUBLIC_FOOTBALL_API_HOST;
 	private headers = {
-		headers: {
-			Authorization: `ApiKey ${this.apiUrl}`,
-			"Content-Type": "application/json",
-		},
+		Authorization: `ApiKey ${this.apiUrl}`,
+		"Content-Type": "application/json",
 	};
 	private buildUrl(url: string): string {
 		const apiUrl = process.env.NEXT_PUBLIC_FOOTBALL_API_HOST;

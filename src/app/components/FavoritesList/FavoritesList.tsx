@@ -12,11 +12,11 @@ export const FavoritesList = () => {
 
 	const { participants, events } = favorites;
 
-    const groupedParticipants = groupBySportType(participants);
-    const groupedEvents = groupBySportType(events);
+	const groupedParticipants = groupBySportType(participants);
+	const groupedEvents = groupBySportType(events);
 
-    console.log(groupedParticipants);
-    console.log(groupedEvents);
+	console.log(groupedParticipants);
+	console.log(groupedEvents);
 
 	if (participants.length === 0 && events.length === 0) {
 		return (

@@ -36,7 +36,9 @@ export default async function Countries({ params }: Props) {
 			<ul>
 				{countries.map((country) => (
 					<li key={country}>
-						<Link href={`/${sportType}/countries/${encodeURIComponent(country.toLowerCase())}`}>{country}</Link>
+						<Link href={`/${sportType}/countries/${encodeURIComponent(country.toLowerCase())}`}>
+							{country}
+						</Link>
 					</li>
 				))}
 			</ul>

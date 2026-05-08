@@ -44,14 +44,14 @@ export const useDateNavigation = () => {
 		next.setDate(next.getDate() + 1);
 
 		changeDateInRouter(router, searchParams, next);
-	}, [currentDate]);
+	}, [currentDate, router, searchParams]);
 
 	const setPrevDate = React.useCallback(() => {
 		const prev = new Date(currentDate);
 		prev.setDate(prev.getDate() - 1);
 
 		changeDateInRouter(router, searchParams, prev);
-	}, [currentDate]);
+	}, [currentDate, router, searchParams]);
 
 	const setDate = React.useCallback(
 		(date: Date) => {

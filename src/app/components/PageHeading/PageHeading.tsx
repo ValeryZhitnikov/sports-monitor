@@ -5,7 +5,7 @@ import { Container } from "@/src/app/components/layout/Container";
 import classes from "./PageHeading.module.scss";
 
 interface Props {
-	title: string;
+	title?: string;
 }
 
 const linkList = [

@@ -14,11 +14,14 @@ export const formatDate = (date: Date | string): string => {
 };
 
 export const groupBySportType = <T extends { sportType: string }>(items: T[]): Record<string, T[]> => {
-	return items.reduce((acc, item) => {
-		if (!acc[item.sportType]) {
-			acc[item.sportType] = [];
-		}
-		acc[item.sportType].push(item);
-		return acc;
-	}, {} as Record<string, T[]>);
+	return items.reduce(
+		(acc, item) => {
+			if (!acc[item.sportType]) {
+				acc[item.sportType] = [];
+			}
+			acc[item.sportType].push(item);
+			return acc;
+		},
+		{} as Record<string, T[]>
+	);
 };
